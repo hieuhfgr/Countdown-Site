@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đồng Hồ Đếm Ngược - by hieuhfgr</title>
+    <style>
+        html{
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #212121;
+            color:white;
+            font-size: larger;
+        }
+        .time-container{
+            width: max-content;
+            border: solid white 5px;
+        }
+        #time {
+            margin-left: 50px;
+            margin-right: 50px;
+            font-size: larger;
+            font-weight: 1000;
+        }
+        form {
+            margin-top: 10px;
+        }
+        input{
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h1>Đồng Hồ Đếm Ngược</h1>
+        <div class="time-container">
+            <p id="time"></p>
+        </div>
+        <h3>Nhập thời gian</h3>
+        <!-- <form> -->
+            Giờ: <input type="number" id="hour" min="0" required><br>
+            Phút: <input type="number" id="minute"  min="0" required><br>
+            Giây: <input type="number" id="second" min="0" required><br>
+            <button type="submit" onclick="getValue()">Bắt Đầu!</button>
+        <!-- </form> -->
+    </center>
+    <center>
+        <h6>Làm bởi @hieuhfgr :3</h6>
+    </center>
+    <script>
+        // initial
+        function timeToString(hh,mm,ss){
+            return `${hh}h : ${mm}m : ${ss}s`;
+        }
+        let hour = 0;
+        let minute = 0;
+        let second = 0;
+        function getValue(){
+            console.log('clicked');
+            hour = document.getElementById('hour').value;
+            minute = document.getElementById('minute').value;
+            second = document.getElementById('second').value;
+            if ((hour < 0) || (minute < 0) || (second < 0)) {
+                alert('Tham số vừa rồi không được bé hơn 0 (< 0)');
+            } else {
+                countdown(hour, minute, second);
+            }
+        }
+        function countdown(hour, minute, second) {
+            let secondToCountdown = (second + minute * 60 + hour * 3600);
+            document.getElementById('time').innerHTML = timeToString(hour, minute, second);
+            console.log('Đồng Hồ Đếm Ngược');
+            
+            var x;
+            if ((hour >= 0) && (minute >= 0) && (second >= 0)){
+                x = setInterval(changeTime, 1000);
+            }
+            function changeTime(){
+                if (second != 0){
+                    second--;
+                } else if (minute != 0){
+                    minute--;
+                    second=59;
+                } else if (hour != 0){
+                    hour--;
+                    minute=59;
+                    second=59;
+                }
+                secondToCountdown--;
+                document.getElementById('time').innerHTML = timeToString(hour, minute, second);
+                console.log(`${hour}:${minute}:${second}`);
+                
+                if ((hour <= 0) && (minute <= 0) && (second <= 0)){
+                    clearInterval(x);
+                    alert("Đã xong!");         
+                }
+            }
+        }
+    </script>
+</body>
+</html>
